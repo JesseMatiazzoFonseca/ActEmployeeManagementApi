@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API</name>
+    </assembly>
+    <members>
+        <member name="M:API.Controllers.FuncionarioController.CreateSubScription(System.Object)">
+            <summary>
+            ESSE MÉTODO IRA ENVIAR PARA A EMPRESA 2BEBOT A URL QUE VAI RECEBER OS EVENTOS DO E-MAIL/WHATSAPP
+            </summary>
+        </member>
+    </members>
+</doc>
