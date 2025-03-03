@@ -15,6 +15,7 @@
     public class ConnectionStrings
     {
         public string DefaultConnection { get; set; }
+        public string DefaultConnectionInitial { get; set; }
     }
 
     public class VersionInfo
@@ -32,6 +33,7 @@
     public class Security
     {
         public string Key { get; set; }
+        public string PasswordAdm { get; set; }
     }
 
     public class AppSettings
@@ -49,15 +51,15 @@
         public AppSettings AppSettings { get; set; }
         public string GetPathLogError()
         {
-            return $"{Logging.LogLevel.Error}/{Application.Name}/ERROR-{{Date}}.txt";
+            return $"{Application.Name}/{Logging.LogLevel.Error}/{Application.Name}/ERROR-{{Date}}.txt";
         }
         public string GetPathLogInformation()
         {
-            return $"{Logging.LogLevel.Information}/{Application.Name}/INFORMATION-{{Date}}.txt";
+            return $"{Application.Name}/{Logging.LogLevel.Information}/{Application.Name}/INFORMATION-{{Date}}.txt";
         }
         public string GetPathLogWarning()
         {
-            return $"{Logging.LogLevel.Warning}/{Application.Name}/WARNING-{{Date}}.txt";
+            return $"{Application.Name}/{Logging.LogLevel.Warning}/{Application.Name}/WARNING-{{Date}}.txt";
         }
     }
 }

@@ -1,5 +1,6 @@
 using Domain.Settings;
 using API.Configuration;
+using Data.Helpers.InitialDataBase;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,16 @@ builder.Services.AddSetupDependenceInjection();
 builder.Services.AddJwtAuthentication(appsetings);
 builder.Services.AddSetupLog(appsetings);
 builder.Services.AddSwaggerSetup(appsetings);
+builder.Services.AddActionFilter();
 #endregion
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var initializer = scope.ServiceProvider.GetRequiredService<InitialDataBase>();
+    initializer.Initialize();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

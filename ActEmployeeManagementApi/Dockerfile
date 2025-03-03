@@ -12,19 +12,23 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["ActEmployeeManagementApi/ActEmployeeManagementApi.csproj", "ActEmployeeManagementApi/"]
-RUN dotnet restore "./ActEmployeeManagementApi/ActEmployeeManagementApi.csproj"
+COPY ["ActEmployeeManagementApi/API.csproj", "ActEmployeeManagementApi/"]
+COPY ["Core/Core.csproj", "Core/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
+COPY ["Infrastructure/Data.csproj", "Infrastructure/"]
+RUN dotnet restore "./ActEmployeeManagementApi/API.csproj"
 COPY . .
 WORKDIR "/src/ActEmployeeManagementApi"
-RUN dotnet build "./ActEmployeeManagementApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./ActEmployeeManagementApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ActEmployeeManagementApi.dll"]
+ENTRYPOINT ["dotnet", "API.dll"]

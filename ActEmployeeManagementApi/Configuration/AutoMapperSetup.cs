@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Domain.Entities;
+using Domain.Models.Request;
 
 namespace API.Configuration
 {
@@ -6,6 +8,10 @@ namespace API.Configuration
     {
         public AutoMapperSetup()
         {
+            CreateMap<EmployeeRequest, Employee>().ReverseMap();
+            CreateMap<UserRequest, User>()
+                .ForMember(dest => dest.SenhaCripto, opt => opt.MapFrom(src => src.Password))
+                .ReverseMap();
         }
     }
 }

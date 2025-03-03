@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -9,6 +7,63 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
-    volumes:
-      - ./SqlScripts:/var/opt/mssql/scripts
-    command: /bin/bash -c "/opt/mssql/bin/sqlservr & sleep 30s & /var/opt/mssql/scripts/init-db.sh"
+    networks:
+      - app_network
+    restart: always
+
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    healthcheck:
+        interval: 10s
+        timeout: 10s
+        retries: 3
+    build:
+      context: .
+      dockerfile: ActEmployeeManagementApi/Dockerfile
+    container_name: api
+    depends_on:
+      - sqlserver
+    # environment:
+    #   - ASPNETCORE_ENVIRONMENT=Development
+    #   - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ActDataBase;User Id=sa;Password=Act1234@;
+    #   - ConnectionStrings__DefaultConnectionInitial=Server=sqlserver,1433;Database=master;User Id=sa;Password=Act1234@;
+    # ports:
+    #   - "5000:80"
+    #   - "5001:443"
+    networks:
+      - app_network
+    restart: always
+
+networks:
+  app_network:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

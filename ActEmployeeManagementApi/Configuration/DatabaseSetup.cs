@@ -1,7 +1,7 @@
 ﻿using Data.Repository;
 using Domain.Interfaces.Repository;
 using Domain.Settings;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 
 namespace API.Configuration
 {

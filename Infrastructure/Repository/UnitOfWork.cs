@@ -1,7 +1,7 @@
 ﻿using Domain.Interfaces.Repository;
-using Microsoft.Data.SqlClient;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Data.Repository
 {
@@ -10,10 +10,19 @@ namespace Data.Repository
         private SqlConnection _sqlConnection;
         private SqlTransaction _sqlTransaction;
         private bool _disposed = false;
+
+        public IEmployeeRepository EmployeeRepository { get; }
+        public IUserRepository UserRepository { get; }
+        public IRolesRepository RolesRepository { get; }
+
         public UnitOfWork(SqlConnection sqlConnection)
         {
             _sqlConnection = sqlConnection ?? throw new ArgumentException(nameof(sqlConnection));
             _sqlConnection?.Open();
+
+            EmployeeRepository = new EmployeeRepository(_sqlConnection);
+            UserRepository = new UserRepository(_sqlConnection);
+            RolesRepository = new RolesRepository(_sqlConnection);
         }
         public void BeginTransaction()
         {
@@ -23,6 +32,10 @@ namespace Data.Repository
                     _sqlConnection.Open();
 
                 _sqlTransaction = _sqlConnection.BeginTransaction();
+
+                EmployeeRepository.SqlTransaction = _sqlTransaction;
+                UserRepository.SqlTransaction = _sqlTransaction;
+                RolesRepository.SqlTransaction = _sqlTransaction;
             }
         }
 

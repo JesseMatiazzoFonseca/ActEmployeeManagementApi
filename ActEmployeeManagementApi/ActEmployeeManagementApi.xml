@@ -4,10 +4,45 @@
         <name>API</name>
     </assembly>
     <members>
-        <member name="M:API.Controllers.FuncionarioController.CreateSubScription(System.Object)">
+        <member name="M:API.Controllers.EmployeeController.AddEmployee(Domain.Models.Request.EmployeeRequest)">
             <summary>
-            ESSE MÉTODO IRA ENVIAR PARA A EMPRESA 2BEBOT A URL QUE VAI RECEBER OS EVENTOS DO E-MAIL/WHATSAPP
+            ESSE MÉTODO IRÁ ADICIONAR UM FUNCIONÁRIO
             </summary>
+            <param name="request">OBJETO DO FUNCIONÁRIO</param>
+            <returns>CODIGO DO USUARIO</returns>
+        </member>
+        <member name="M:API.Controllers.EmployeeController.UpdateEmployee(Domain.Models.Request.EmployeeRequest)">
+            <summary>
+            ESSE MÉTODO IRÁ ATUALIZAR UM FUNCIONÁRIO
+            </summary>
+            <param name="request">OBJETO DO FUNCIONÁRIO</param>
+            <returns>TRUE PARA SUCESSO NA ALTERAÇÃO</returns>
+        </member>
+        <member name="M:API.Controllers.EmployeeController.GetEmployee">
+            <summary>
+            ESSE MÉTODO IRÁ RETORNAR TODOS OS FUNCIONÁRIOS
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.LoginController.Login(Domain.Models.Request.LoginRequest)">
+            <summary>
+            MÉTODO PARA REALIZAR O LOGIN
+            </summary>
+            <param name="request">OBJETO REQUEST LOGIN</param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.UserController.DisableUser(System.Int32)">
+            <summary>
+            ESSE MÉTODO IRÁ ADICIONAR UM USUÁRIO
+            </summary>
+            <param name="codUsuario">CÓDIGO DO USUARIO</param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.UserController.UpdateEmployee">
+            <summary>
+            ESSE MÉTODO IRÁ RETORNAR TODOS OS USUÁRIOS
+            </summary>
+            <returns></returns>
         </member>
     </members>
 </doc>
