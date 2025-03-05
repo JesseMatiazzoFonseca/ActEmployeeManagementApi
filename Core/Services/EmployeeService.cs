@@ -18,7 +18,8 @@ namespace Domain.Interfaces.Services
 
         public async Task<IEnumerable<EmployeeResponse>> GetEmployees()
         {
-            return await _unitOfWork.EmployeeRepository.GetAllEmployeesAsync();
+            var result = await _unitOfWork.EmployeeRepository.GetAllEmployeesAsync();
+            return result.Where(x => x.Roles != "ADM");
         }
 
         public async Task<EmployeeResponse> GetEmployeeByCodUsuario(int codUsuario)
