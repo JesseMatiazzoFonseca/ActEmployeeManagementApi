@@ -24,7 +24,20 @@ builder.Services.AddSwaggerSetup(appsetings);
 builder.Services.AddActionFilter();
 #endregion
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AlowAny",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
+
+app.UseCors("AlowAny");
 
 using (var scope = app.Services.CreateScope())
 {

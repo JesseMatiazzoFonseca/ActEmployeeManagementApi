@@ -50,5 +50,9 @@ namespace Core.Services
             request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
             return request;
         }
+        public bool TransformManager(int codUsuario)
+        {
+            return _unitOfWork.UserRepository.TransformManager(codUsuario);
+        }
     }
 }

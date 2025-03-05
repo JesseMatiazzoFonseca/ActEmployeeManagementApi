@@ -11,14 +11,19 @@
             <param name="request">OBJETO DO FUNCIONÁRIO</param>
             <returns>CODIGO DO USUARIO</returns>
         </member>
-        <member name="M:API.Controllers.EmployeeController.UpdateEmployee(Domain.Models.Request.EmployeeRequest)">
+        <member name="M:API.Controllers.EmployeeController.UpdateEmployee(Domain.Models.Request.EmployeeUpdateRequest,System.Int32)">
             <summary>
             ESSE MÉTODO IRÁ ATUALIZAR UM FUNCIONÁRIO
             </summary>
             <param name="request">OBJETO DO FUNCIONÁRIO</param>
             <returns>TRUE PARA SUCESSO NA ALTERAÇÃO</returns>
         </member>
-        <member name="M:API.Controllers.EmployeeController.GetEmployee">
+        <member name="M:API.Controllers.EmployeeController.GetEmployeeByCodUsuario(System.Int32)">
+            <summary>
+            ESSE MÉTODO IRÁ RETORNAR UM FUNCIONÁRIO PELO CÓDIGO DO USUARIO
+            </summary>
+        </member>
+        <member name="M:API.Controllers.EmployeeController.GetEmployees">
             <summary>
             ESSE MÉTODO IRÁ RETORNAR TODOS OS FUNCIONÁRIOS
             </summary>
@@ -32,6 +37,13 @@
             <returns></returns>
         </member>
         <member name="M:API.Controllers.UserController.DisableUser(System.Int32)">
+            <summary>
+            ESSE MÉTODO IRÁ ADICIONAR UM USUÁRIO
+            </summary>
+            <param name="codUsuario">CÓDIGO DO USUARIO</param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.UserController.TransformManager(System.Int32)">
             <summary>
             ESSE MÉTODO IRÁ ADICIONAR UM USUÁRIO
             </summary>

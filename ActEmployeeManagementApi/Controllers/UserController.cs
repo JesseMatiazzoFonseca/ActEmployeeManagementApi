@@ -33,6 +33,23 @@ namespace API.Controllers
             });
         }
         /// <summary>
+        /// ESSE MÉTODO IRÁ ADICIONAR UM USUÁRIO
+        /// </summary>
+        /// <param name="codUsuario">CÓDIGO DO USUARIO</param>
+        /// <returns></returns>
+        [Authorize(AuthenticationSchemes = "tokenDefault", Roles = "ADM")]
+        [HttpPatch("TransformManager")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponse<bool>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponse<string>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<BaseResponse<bool>> TransformManager([Required][FromQuery] int codUsuario)
+        {
+            return Execute(() =>
+            {
+                return _userService.TransformManager(codUsuario);
+            });
+        }
+        /// <summary>
         /// ESSE MÉTODO IRÁ RETORNAR TODOS OS USUÁRIOS
         /// </summary>
         /// <returns></returns>

@@ -9,9 +9,9 @@ namespace Domain.Models.Request
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "O campo {0} deve ter {1} caracteres")]
         public string Cpf { get; set; }
+        public string Roles { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public string Password { get; set; }
-        public string Roles { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (!RequestValidator.CpfValidator(Cpf))

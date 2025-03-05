@@ -34,5 +34,10 @@ namespace Data.Repository
             string query = @"SELECT * FROM USUARIO WHERE CPF = @CPF";
             return await SqlConnection.QueryFirstOrDefaultAsync<User>(query, new { cpf }, SqlTransaction);
         }
+        public bool TransformManager(int codUsuario)
+        {
+            string query = @"UPDATE USUARIO SET ROLES = 'GESTOR' WHERE CODUSUARIO=@CODUSUARIO";
+            return SqlConnection.Execute(query, new { codUsuario }, SqlTransaction) > 0;
+        }
     }
 }

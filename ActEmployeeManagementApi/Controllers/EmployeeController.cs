@@ -5,6 +5,7 @@ using Domain.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -37,16 +38,31 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request">OBJETO DO FUNCIONÁRIO</param>
         /// <returns>TRUE PARA SUCESSO NA ALTERAÇÃO</returns>
-        [Authorize(AuthenticationSchemes = "tokenDefault", Roles = "ADM,GESTOR")]
+        [Authorize(AuthenticationSchemes = "tokenDefault")]
         [HttpPut("UpdateEmployee")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponse<object>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponse<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<BaseResponse<bool>> UpdateEmployee([Required][FromBody] EmployeeRequest request)
+        public async Task<ActionResult<BaseResponse<bool>>> UpdateEmployee([Required][FromBody] EmployeeUpdateRequest request, [Required][FromQuery]int codUsuario)
         {
-            return Execute(() =>
+            return await ExecuteAsync(async () =>
             {
-                return _employeeService.PutEmployee(request);
+                return await _employeeService.PutEmployee(request, codUsuario);
+            });
+        }
+        /// <summary>
+        /// ESSE MÉTODO IRÁ RETORNAR UM FUNCIONÁRIO PELO CÓDIGO DO USUARIO
+        /// </summary>
+        [Authorize(AuthenticationSchemes = "tokenDefault")]
+        [HttpGet("GetEmployeeByCodUsuario")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponse<EmployeeResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponse<string>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<BaseResponse<EmployeeResponse>>> GetEmployeeByCodUsuario([Required][FromQuery] int codUsuario)
+        {
+            return await ExecuteAsync(async () =>
+            {
+                return await _employeeService.GetEmployeeByCodUsuario(codUsuario);
             });
         }
         /// <summary>
@@ -54,11 +70,11 @@ namespace API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize(AuthenticationSchemes = "tokenDefault", Roles = "GESTOR,ADM")]
-        [HttpGet("GetEmployee")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponse<object>))]
+        [HttpGet("GetEmployees")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponse<IEnumerable<EmployeeResponse>>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponse<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BaseResponse<IEnumerable<Employee>>>> GetEmployee()
+        public async Task<ActionResult<BaseResponse<IEnumerable<EmployeeResponse>>>> GetEmployees()
         {
             return await ExecuteAsync(_employeeService.GetEmployees);
         }

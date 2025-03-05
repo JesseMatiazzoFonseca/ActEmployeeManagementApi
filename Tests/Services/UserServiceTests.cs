@@ -99,7 +99,37 @@ namespace Testes.Services
 
             Assert.True(result);
         }
+        [Fact]
+        public void TransformManager_ShouldReturnTrue_WhenRepositoryReturnsTrue()
+        {
+            // Arrange
+            int codUsuario = 1;
+            _unitOfWorkMock.Setup(u => u.UserRepository.TransformManager(codUsuario))
+                           .Returns(true);
 
+            // Act
+            var result = _userService.TransformManager(codUsuario);
+
+            // Assert
+            Assert.True(result);
+            _unitOfWorkMock.Verify(u => u.UserRepository.TransformManager(codUsuario), Times.Once);
+        }
+
+        [Fact]
+        public void TransformManager_ShouldReturnFalse_WhenRepositoryReturnsFalse()
+        {
+            // Arrange
+            int codUsuario = 2;
+            _unitOfWorkMock.Setup(u => u.UserRepository.TransformManager(codUsuario))
+                           .Returns(false);
+
+            // Act
+            var result = _userService.TransformManager(codUsuario);
+
+            // Assert
+            Assert.False(result);
+            _unitOfWorkMock.Verify(u => u.UserRepository.TransformManager(codUsuario), Times.Once);
+        }
 
 
     }

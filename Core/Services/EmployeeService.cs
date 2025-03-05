@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Domain.Models.Request;
+using Domain.Models.Response;
+using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Services
 {
@@ -13,9 +16,14 @@ namespace Domain.Interfaces.Services
             _userService = userService;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployees()
+        public async Task<IEnumerable<EmployeeResponse>> GetEmployees()
         {
             return await _unitOfWork.EmployeeRepository.GetAllEmployeesAsync();
+        }
+
+        public async Task<EmployeeResponse> GetEmployeeByCodUsuario(int codUsuario)
+        {
+            return await _unitOfWork.EmployeeRepository.GetEmployeeAndUserByCodUsuarioAsync(codUsuario) ?? throw new Exception("Funcionário não encontrado");
         }
 
         public int PostEmployee(EmployeeRequest request)
@@ -26,9 +34,13 @@ namespace Domain.Interfaces.Services
             var result = _unitOfWork.EmployeeRepository.PostEmployee(employee);
             return result;
         }
-        public bool PutEmployee(EmployeeRequest request)
+        public async Task<bool> PutEmployee(EmployeeUpdateRequest request, int codUsuario)
         {
-            return _unitOfWork.EmployeeRepository.PutEmployee(_mapper.Map<Employee>(request));
+            var employee = await _unitOfWork.EmployeeRepository.GetEmployeeByCodUsuarioAsync(codUsuario) ?? throw new Exception("Funcionário não encontrado");
+            var model = _mapper.Map<Employee>(request);
+            model.CodFuncionario = employee.CodFuncionario;
+            model.CodUsuario = employee.CodUsuario;
+            return _unitOfWork.EmployeeRepository.PutEmployee(model);
         }
     }
 }

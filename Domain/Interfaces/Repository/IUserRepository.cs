@@ -8,5 +8,6 @@ namespace Domain.Interfaces.Repository
         public Task<User> GetUserByCpf(string cpf);
         public int PostUser(User request);
         public bool DisableUsuario(int codUsuario);
+        public bool TransformManager(int codUsuario);
     }
 }
